@@ -16,7 +16,9 @@ The background process that makes a DIAB node alive rather than static.
 
 **Key characteristic:** The node agent runs continuously in the background. It is the only process that understands the full state of the node. Dreams and services call into it; they never manage infrastructure directly.
 
-**Implementation:** See `docs/OPERATIONAL-PATTERNS.md` for the four core patterns (Heartbeat, Budget, Traceability, Isolation).
+**The Embedded Scheduler** is the node agent's time authority. A `setInterval` loop inside the Express process polls `scheduler_events` where `fire_at <= now`. No separate service, no message queue, no Temporal. Events carry JSON callbacks for conditional logic before firing. Recursive chaining (one event creates the next) replaces cron. See `docs/MVH-CASE-STUDY-JM-AND-SCHEDULER.md` for the proven implementation.
+
+**Implementation:** See `docs/OPERATIONAL-PATTERNS.md` for the four core patterns (Heartbeat, Budget, Traceability, Isolation). See `docs/MVH-CASE-STUDY-JM-AND-SCHEDULER.md` for the JM state machine and embedded scheduler — the concrete implementations of heartbeat and traceability.
 
 ---
 
@@ -57,6 +59,8 @@ Shared capabilities available to every dream on the node.
 - Every dream has access to every service. A dream doesn't "install" Forkless — it's just there.
 - Services share the node's protocols. Forkless respects the same budget limits and identity rules as everything else.
 - New services can be added to a node. The architecture is open — not limited to Forkless and Greenspaces.
+
+**The JM Engine** lives within the service layer. Every dream that has multi-step customer processes gets the Journey Mapping state machine: the `journey_states` table, per-type transition maps, validated state transitions, automatic side effects, and admin queue derivation. This is the operational core — proven in MVH, generalized for all dreams. See `docs/MVH-CASE-STUDY-JM-AND-SCHEDULER.md`.
 
 **Relationship to dreams:** A dream declares which service capabilities it uses. The node agent wires them together. The dream never talks to infrastructure directly — it talks to services, which talk to the node agent.
 

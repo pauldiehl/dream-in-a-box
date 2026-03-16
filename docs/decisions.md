@@ -59,3 +59,15 @@ Format:
 **Context:** Traditional SaaS builds admin dashboards and customer portals with dozens of screens, settings, and configuration options.
 **Decision:** Admin "portal" is a conversation with the operations agent plus a queue/inbox of items needing attention. Customer "portal" is scheduled engagement + on-demand conversation + readonly artifacts. No dashboards. No settings pages. No toggles.
 **Rationale:** Every dashboard screen is a maintenance burden and a failure point. Business users don't need 47 admin screens — they need to talk to an agent that has full context from protocol execution. Customers don't need a settings page — they need to tell the agent what they want changed. This is agentic execution: if the agent interface works, we get massive wins in development speed and business momentum.
+
+## 2026-03-16 — JM as finite state machine, not workflow engine
+
+**Context:** Customer journeys need state tracking. Options: status flags on user records (messy), workflow engines like Temporal/Step Functions (overkill), or a purpose-built state machine.
+**Decision:** Journey Mappings are finite state machines backed by a single `journey_states` SQLite table with JSON `state_data`. Per-type transition maps define valid state changes. A `transitionState()` validator enforces consistency. Side effects fire automatically on transitions.
+**Rationale:** Proven in MVH production. One table, ~200 lines of JS, handles the full lifecycle of any multi-step customer process. Temporal is a separate service to deploy and maintain with a steep learning curve — overkill for "track where a customer is and do something when they stall." The admin queue derives from the same table (SQL query with priority logic), eliminating the need for a separate queue infrastructure. See docs/MVH-CASE-STUDY-JM-AND-SCHEDULER.md.
+
+## 2026-03-16 — Embedded scheduler over external orchestration
+
+**Context:** Dreams need time-based actions: reminders, follow-ups, stall detection, recurring check-ins. Options: external orchestration (Temporal, Step Functions), cron jobs, or embedded polling.
+**Decision:** Embedded scheduler — a `scheduler_events` SQLite table polled by `setInterval` every 5 minutes inside the Express process. JSON callbacks for conditional logic. Recursive event chaining (one event creates the next) instead of cron expressions.
+**Rationale:** Proven in MVH production. No separate service to deploy. If Express is running, the scheduler is running. If it crashes, both restart together. Recursive chaining is simpler than cron: each customer has exactly ONE pending event at any time, cancellation = stop chaining, frequency changes are instant, and each event fires state-aware. The callback mechanism makes the scheduler smart (suppress, override, chain, escalate) without complex application logic. <500 lines of JS total for both JM engine and scheduler. See docs/MVH-CASE-STUDY-JM-AND-SCHEDULER.md.
