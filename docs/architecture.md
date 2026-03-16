@@ -141,6 +141,30 @@ If DIAB can run Plain Fun, it can run anything.
 
 ---
 
+## Delivery Modes
+
+A DIAB node reaches real users through one of two paths.
+
+### Mode 1: Gift Delivery (Radical Generosity)
+
+A founder identifies someone who could thrive with a DIAB-powered business. The founder runs the DDP Toolkit on their behalf, sets up a DIAB node as a **child AWS account** under the founder's parent AWS organization, proves it out (real customers, real revenue), and hand-delivers the result — a working business with keys ready to hand over.
+
+This is the Web 4.0 movement play. Not a sales pitch. A gift. Select individuals, wake them up to the current reality by giving them a headstart. The hope: half run with it and spread the movement organically.
+
+**Technical:** AWS Organizations child account → DIAB node deployed via Layer 0 agent → protocols pre-configured → Forkless + services running → dream active with real data.
+
+### Mode 2: Self-Serve (Clone and Converse)
+
+A founder clones the repo, runs `npm start`, and a local Forkless agent boots as the DDP Toolkit. The agent walks them through domain discovery, journey mapping, and user flow definition. Produces working protocols and schemas. When ready to go live, the agent walks them through deploying to their cloud provider of choice — or running on their own hardware (sovereign Mac Mini node, etc.).
+
+No CLI wizard. No documentation-first approach. The onboarding IS a conversation with the same agent that will eventually serve their customers.
+
+**Technical:** Local Node.js → Forkless agent as toolkit → protocol files generated → deploy to cloud or self-host when ready.
+
+See `docs/DOMAIN-DRIVEN-PROTOCOLS.md` for the full DDP Toolkit specification.
+
+---
+
 ## What This Repo Is NOT
 
 - **Not an app framework.** It doesn't generate CRUD apps or landing pages.
