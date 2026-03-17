@@ -40,7 +40,8 @@ Small, structured embeddings of domain knowledge. NOT full documents. NOT paragr
 Each vector is a point in high-dimensional space. Similar concepts cluster together. A query finds the nearest neighbors — the most relevant knowledge for the current moment.
 
 **What gets embedded:**
-- Journey stage definitions from DDPs
+- Journey Blocks and their parameterizations (see `docs/JOURNEY-BLOCKS.md`)
+- Composed journey patterns (block sequences that map to common offerings)
 - Known customer request → response mappings
 - Solution templates (nutrition plans, coaching programs, etc.)
 - Archetype profiles (the "average" customer at each segment)
@@ -326,4 +327,5 @@ Vector similarity enables instant service. Customer says "I want X" → vector s
 - **`docs/OPERATIONAL-PATTERNS.md`** — Heartbeat pattern governs vector maintenance cycles
 - **`docs/DOMAIN-DRIVEN-PROTOCOLS.md`** — DDPs are the primary content source for vector population
 - **`docs/MVH-CASE-STUDY-JM-AND-SCHEDULER.md`** — JM engine integrates with vector routing for journey selection
+- **`docs/JOURNEY-BLOCKS.md`** — Composable journey blocks are the primary vectorized units. Journey composition through block matching is the intelligence layer's killer use case.
 - **`sovereign-streams/web4/PROTOCOL-MATURITY.md`** — The Strangler Pattern and crystallization theory that the intelligence layer implements mechanically

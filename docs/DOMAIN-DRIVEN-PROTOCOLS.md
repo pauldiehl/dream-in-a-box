@@ -525,6 +525,8 @@ The DDP Toolkit is the entry point for every dreamer. The JM engine and schedule
 
 ## Reference Documents
 
+- **`docs/JOURNEY-BLOCKS.md`** — Composable journey pattern library. Eight reusable blocks (presentation, simple_intake, iterative_intake, recommendation, payment, confirmation, plan_page, followup) that compose into any journey. The DDP Toolkit produces journey JSON from block compositions. Transition maps auto-generate from block sequences.
 - **`docs/MVH-CASE-STUDY-JM-AND-SCHEDULER.md`** — Production implementation of JM engine and embedded scheduler from Man vs Health. Working code, real schemas, proven patterns.
+- **`docs/INTELLIGENCE-LAYER.md`** — Blocks are the vectorized units in the intelligence layer. Journey composition happens through vector similarity matching.
 - **`docs/OPERATIONAL-PATTERNS.md`** — Four core node agent patterns (Heartbeat, Budget, Traceability, Isolation). The scheduler is the heartbeat concretized; the admin queue is traceability concretized.
 - **`docs/architecture.md`** — The four-layer model. JM engine and scheduler live in the Bootstrap layer, available to all dreams via Forkless (Layer 2 service).
