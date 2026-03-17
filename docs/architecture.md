@@ -18,7 +18,9 @@ The background process that makes a DIAB node alive rather than static.
 
 **The Embedded Scheduler** is the node agent's time authority. A `setInterval` loop inside the Express process polls `scheduler_events` where `fire_at <= now`. No separate service, no message queue, no Temporal. Events carry JSON callbacks for conditional logic before firing. Recursive chaining (one event creates the next) replaces cron. See `docs/MVH-CASE-STUDY-JM-AND-SCHEDULER.md` for the proven implementation.
 
-**Implementation:** See `docs/OPERATIONAL-PATTERNS.md` for the four core patterns (Heartbeat, Budget, Traceability, Isolation). See `docs/MVH-CASE-STUDY-JM-AND-SCHEDULER.md` for the JM state machine and embedded scheduler — the concrete implementations of heartbeat and traceability.
+**The Intelligence Layer** is the node agent's knowledge authority. A local vector database (sqlite-vss) that stores meta-embeddings of protocols, solution patterns, and conversation fingerprints. The agent queries vectors BEFORE calling the LLM — high-similarity matches serve cached responses directly (zero LLM cost), medium-similarity matches provide grounding context, low-similarity triggers full computation (result gets cached). This is the mechanical implementation of the Strangler Pattern's crystallization. See `docs/INTELLIGENCE-LAYER.md` for theory and `docs/INTELLIGENCE-LAYER-HANDOFF.md` for build instructions.
+
+**Implementation:** See `docs/OPERATIONAL-PATTERNS.md` for the four core patterns (Heartbeat, Budget, Traceability, Isolation). See `docs/MVH-CASE-STUDY-JM-AND-SCHEDULER.md` for the JM state machine and embedded scheduler. See `docs/INTELLIGENCE-LAYER.md` for the vector intelligence layer.
 
 ---
 
